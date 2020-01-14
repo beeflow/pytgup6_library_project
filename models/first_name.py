@@ -14,5 +14,8 @@ class FirstName(BaseModel):
         unique=True
     )
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         table_name = 'first_name'

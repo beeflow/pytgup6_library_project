@@ -316,3 +316,5 @@ BEGIN
         and rb_return_date is null;
     end if;
 end;
+
+alter table book_author rename book_author_through;

@@ -20,5 +20,8 @@ class LibraryClient(BaseModel):
         column_name='lc_last_name_id'
     )
 
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
     class Meta:
         table_name = 'library_client'
