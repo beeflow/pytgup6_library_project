@@ -2,6 +2,7 @@ from typing import List
 
 from models.author import Author
 from models.book import Book
+from models.book_copy import BookCopy
 from models.first_name import FirstName
 from models.last_name import LastName
 from models.publisher import Publisher
@@ -36,8 +37,9 @@ class Books:
     def find(self) -> Book:
         print('Wyszukiwanie książek')
         books = Book().select().where(Book.title.contains(input('Podaj tytuł: ')))
-
+        found_books = []
         for book in books:
+            found_books.append(book.id)
             print(f'{book.id} | {book.title}')
 
         if not books:
@@ -45,9 +47,21 @@ class Books:
 
         while True:
             try:
-                return Book().get_by_id(int(input('Wybierz książkę: ')))
+                book_id = int(input('Wybierz książkę: '))
+                if book_id not in found_books:
+                    print('Nie tego szukaliśmy...')
+                    continue
+
+                return Book().get_by_id(book_id)
+
             except:
                 print('Nie wybrano książki...')
+
+    def add_copy(self, book: Book) -> BookCopy:
+        bc = BookCopy(book=book)
+        bc.save()
+
+        return bc
 
     def add_authors(self, authors: List[str]) -> List[Author]:
         """Dodawanie nowych autorów."""

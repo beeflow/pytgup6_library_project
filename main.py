@@ -27,16 +27,16 @@ def main():
 
     if option == 2:
         book = Books().find()
-
-        try:
-            book_copy = BookCopy().get(book=book, is_available=True)
-        except:
-            print('Brak dostępnych egzemplarzy.')
-            main()
+        book_copy = None
 
         print(f'Wybrano książkę "{book}"')
         print('Dostępne opcje:')
-        print('   1 - Wypożycz książkę')
+        try:
+            book_copy = BookCopy().get(book=book, is_available=True)
+            print('   1 - Wypożycz książkę')
+        except:
+            print('   - - Brak dostępnych egzemplarzy.')
+        print('   2 - Dodaj egzemplarz')
         print('   * - Powrót do głównego menu')
 
         sub_option = input("> ")
@@ -49,7 +49,12 @@ def main():
         except ValueError:
             main()
 
-        if sub_option == 1:
+        if sub_option == 2:
+            bc = Books().add_copy(book)
+            print(f'Kopia dodana pod ID {bc.id}')
+            main()
+
+        if sub_option == 1 and book_copy:
             user = Users().find()
             if input(f'Wypożyczyć książkę "{book}" czytelnikowi {user}? [t/n]') == 't':
                 RentBook(book=book_copy, reader=user).save()
@@ -60,26 +65,6 @@ def main():
         print(f'Dodano książkę o ID {book_id}')
 
     main()
-
-    # book = Book().get_by_id(1)
-    # for i in book.authors:
-    #     print(i)
-
-    # author = Author().select().join(LastName).where(LastName.name % 'sienkiewicz')
-    #
-    # for book in author[0].books:
-    #     print(book)
-    #
-    # copies = BookCopy().select().where(BookCopy.book == 1)
-    # for copy in copies:
-    #     print(copy)
-    # #
-    # rent = RentBook().select()
-    # for i in rent:
-    #     print(i)
-
-    # client = LibraryClient().get_by_id(1)
-    # print(client.first_name.name)
 
 
 if __name__ == '__main__':
