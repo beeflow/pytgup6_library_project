@@ -1,3 +1,6 @@
+from library_options.users import Users
+
+
 def main():
     print("Wybierz opcję:")
     print("  1 - Dodaj książkę")
@@ -9,6 +12,17 @@ def main():
 
     if option == 'q':
         exit()
+
+    try:
+        option = int(option)
+    except ValueError:
+        main()
+
+    if option == 3:
+        user_id = Users().add()
+        print(f'Dodano użytkownika o ID {user_id}')
+
+    main()
 
     # book = Book().get_by_id(1)
     # for i in book.authors:

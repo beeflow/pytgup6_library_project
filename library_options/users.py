@@ -8,6 +8,8 @@ class Users:
 
     def add(self) -> int:
         """ Dodawanie nowych użytkowników do bazy. """
+        print('Dodawanie nowego użytkownika')
+        
         first_name = FirstName().get_or_create(name=input('Podaj imię: '))[0]
         last_name = LastName().get_or_create(name=input('Podaj nazwisko: '))[0]
 
