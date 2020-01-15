@@ -1,3 +1,5 @@
+from peewee import JOIN
+
 from models.first_name import FirstName
 from models.last_name import LastName
 from models.library_client import LibraryClient
@@ -33,3 +35,16 @@ class Users:
         )[0]
 
         return user
+
+    def find_by_last_name(self):
+        ln = input('Podaj nazwisko: ')
+
+        users = LibraryClient().select().\
+            join(LastName, JOIN.LEFT_OUTER).\
+            switch(LibraryClient).\
+            join(FirstName, JOIN.LEFT_OUTER).\
+            where(LastName.name.contains(ln)).\
+            order_by(FirstName.name.desc())
+
+        for user in users:
+            print(user)

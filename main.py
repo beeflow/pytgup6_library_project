@@ -9,6 +9,7 @@ def main():
     print("  1 - Dodaj książkę")
     print("  2 - Znajdź książkę")
     print("  3 - Dodaj użytkownika")
+    print("  4 - Znajdź użytkownika")
     print("  q - Zakończ porogram")
 
     option = input("> ")
@@ -20,6 +21,9 @@ def main():
         option = int(option)
     except ValueError:
         main()
+
+    if option == 4:
+        Users().find_by_last_name()
 
     if option == 3:
         user_id = Users().add()
