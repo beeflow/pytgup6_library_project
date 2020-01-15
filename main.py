@@ -1,4 +1,6 @@
+from library_options.books import Books
 from library_options.users import Users
+from models.book import Book
 
 
 def main():
@@ -21,6 +23,10 @@ def main():
     if option == 3:
         user_id = Users().add()
         print(f'Dodano użytkownika o ID {user_id}')
+
+    if option == 1:
+        book_id = Books().add()
+        print(f'Dodano książkę o ID {book_id}')
 
     main()
 

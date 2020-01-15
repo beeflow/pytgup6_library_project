@@ -25,9 +25,11 @@ class Books:
             next_author = input('Następny autor? [t/n]')
 
         authors = self.add_authors(authors)
-        book = Book(title=title, isbn=isbn, description=description, publisher=publisher, authors=authors)
-
+        book = Book(title=title, isbn=isbn, description=description, publisher=publisher)
         book.save()
+
+        book.authors = authors
+        book.update()
 
         return book.id
 
@@ -36,12 +38,16 @@ class Books:
         result = []
 
         for author_name in authors:
-            first_name, last_name = author_name.split(' ')
-            author = Author(
+            try:
+                first_name, last_name = author_name.split(' ')
+            except ValueError:
+                first_name, last_name = author_name, None
+
+            author = Author().get_or_create(
                 first_name=FirstName().get_or_create(name=first_name)[0],
                 last_name=LastName().get_or_create(name=last_name)[0] if last_name else None
-            )
-            author.save()
+            )[0]
+
             result.append(author)
 
         return result
