@@ -33,6 +33,22 @@ class Books:
 
         return book.id
 
+    def find(self) -> Book:
+        print('Wyszukiwanie książek')
+        books = Book().select().where(Book.title.contains(input('Podaj tytuł: ')))
+
+        for book in books:
+            print(f'{book.id} | {book.title}')
+
+        if not books:
+            self.find()
+
+        while True:
+            try:
+                return Book().get_by_id(int(input('Wybierz książkę: ')))
+            except:
+                print('Nie wybrano książki...')
+
     def add_authors(self, authors: List[str]) -> List[Author]:
         """Dodawanie nowych autorów."""
         result = []

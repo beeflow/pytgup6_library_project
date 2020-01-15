@@ -9,7 +9,7 @@ class Users:
     def add(self) -> int:
         """ Dodawanie nowych użytkowników do bazy. """
         print('Dodawanie nowego użytkownika')
-        
+
         first_name = FirstName().get_or_create(name=input('Podaj imię: '))[0]
         last_name = LastName().get_or_create(name=input('Podaj nazwisko: '))[0]
 
@@ -20,3 +20,16 @@ class Users:
         client.save()
 
         return client.id
+
+    def find(self) -> LibraryClient:
+        print('Znajdź użytkownika')
+        username = input('  imię i nazwisko: ')
+
+        first_name, last_name = username.split(' ')
+
+        user = LibraryClient().get_or_create(
+            first_name=FirstName().get_or_create(name=first_name)[0],
+            last_name=LastName().get_or_create(name=last_name)[0]
+        )[0]
+
+        return user
